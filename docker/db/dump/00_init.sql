@@ -69,3 +69,18 @@ CREATE TABLE `hotel_agreements` (
  FOREIGN KEY (`company_id`) REFERENCES companies(`id`),
  FOREIGN KEY (`hotel_id`) REFERENCES hotels(`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COMMENT='Договоры между компанией и отелем';
+
+-- Добавлена таблица для хранения правил
+CREATE TABLE `rules` (
+ `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID правила',
+ `agency_id` INT UNSIGNED NOT NULL COMMENT 'ID агентства',
+ `name` VARCHAR(255) NOT NULL COMMENT 'Название правила',
+ `conditions` JSON NOT NULL COMMENT 'Условия правила в JSON',
+ `message` TEXT NOT NULL COMMENT 'Текст для менеджера',
+ `is_active` TINYINT(1) NOT NULL DEFAULT 1 COMMENT 'Активное правило',
+ PRIMARY KEY (`id`),
+ KEY `idx_rules_agency_id` (`agency_id`),
+ CONSTRAINT `fk_rules_agency` FOREIGN KEY (`agency_id`) REFERENCES `agencies`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Правила проверки отелей';
+
+
